@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ADSTAR ADS - Sistem Lengkap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; }
+        html, body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #0A0F1C; 
+            color: white; 
+            margin: 0; padding: 0; 
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        .app-container { 
+            max-width: 430px; margin: 0 auto; min-height: 100vh; 
+            position: relative; background-color: #0A0F1C; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column;
+        }
+        .app-container.with-nav { padding-bottom: 80px; }
+        .bg-card { background-color: #1A233A; border: 1px solid #2D3748; }
+        .text-gold { color: #FACC15; }
+        .btn-gold { background: linear-gradient(135deg, #FCD34D, #F59E0B); color: #000; font-weight: 700; transition: all 0.2s; }
+        .btn-gold:active { transform: scale(0.96); }
+        .btn-gold:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-danger { background: linear-gradient(135deg, #EF4444, #DC2626); color: white; font-weight: 600; }
+        .btn-success { background: linear-gradient(135deg, #10B981, #059669); color: white; font-weight: 600; }
+        .gradient-text { background: linear-gradient(to right, #FCD34D, #F59E0B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .bottom-nav { background-color: #111827; border-top: 1px solid #1F2937; }
+        .bottom-nav-item.active { color: #FACC15; }
+        .bottom-nav-item.active i { transform: translateY(-3px); }
+        .bottom-nav-item i { transition: all 0.2s ease; }
+        .view { display: none; animation: fadeIn 0.3s ease-in-out; flex: 1; }
+        .view.active { display: flex; flex-direction: column; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .network-svg line { stroke: #FACC15; stroke-width: 1.5; stroke-dasharray: 4; opacity: 0.4; }
+        .admin-badge { background: linear-gradient(135deg, #7C3AED, #C026D3); }
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #1A233A; color: white; padding: 12px 20px; border-radius: 12px; border: 1px solid #FACC15; z-index: 9999; box-shadow: 0 0 20px rgba(250,204,21,0.3); animation: slideDown 0.3s; max-width: 90%; text-align: center; font-size: 13px; }
+        @keyframes slideDown { from { top: -50px; opacity: 0; } to { top: 20px; opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="app-container" id="appContainer">
+
+        <!-- ================= HALAMAN AWAL (SPLASH) ================= -->
+        <div id="view-splash" class="view active">
+            <div class="flex-1 flex flex-col justify-center items-center p-6 relative overflow-hidden">
+                <div class="absolute top-10 left-1/2 transform -translate-x-1/2 w-72 h-72 bg-yellow-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="text-center z-10 mb-5">
+                    <div class="relative w-24 h-24 mx-auto mb-2 flex items-center justify-center">
+                        <div class="absolute inset-0 border-2 border-yellow-500/30 rounded-full animate-pulse"></div>
+                        <div class="absolute inset-3 border border-yellow-400/50 rounded-full"></div>
+                        <i class="fa-solid fa-star text-5xl text-yellow-400 drop-shadow-[0_0_20px_rgba(250,204,21,0.8)]"></i>
+                    </div>
+                    <h1 class="text-2xl font-extrabold gradient-text tracking-wider mb-1">ADSTAR ADS</h1>
+                    <p class="text-gray-400 text-xs">Klik Iklan, Raih Penghasilan</p>
+                </div>
+                
+                <div class="bg-card p-5 rounded-2xl w-full z-10 border border-slate-700 shadow-2xl">
+                    <div class="mb-4">
+                        <p class="text-[10px] text-gray-400 text-center mb-2 uppercase tracking-wider">⚡ Akses Cepat Demo</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="quickLoginUser()" class="bg-gradient-to-r from-yellow-500 to-orange-500 text-black py-2.5 rounded-xl text-xs font-bold shadow-lg shadow-yellow-500/30 hover:opacity-90 transition">
+                                <i class="fa-solid fa-bolt mr-1"></i> Quick User
+                            </button>
+                            <button onclick="quickLoginAdmin()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2.5 rounded-xl text-xs font-bold shadow-lg shadow-purple-500/30 hover:opacity-90 transition">
+                                <i class="fa-solid fa-bolt mr-1"></i> Quick Admin
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="flex-1 h-px bg-slate-700"></div>
+                        <span class="text-[10px] text-gray-500">ATAU DAFTAR / LOGIN</span>
+                        <div class="flex-1 h-px bg-slate-700"></div>
+                    </div>
+
+                    <h2 class="text-base font-bold text-center mb-1">Daftar Gratis</h2>
+                    <h2 class="text-base font-bold text-center text-gold mb-4" id="splash-bonus-text">Langsung Dapat Rp 30.000</h2>
+                    
+                    <div class="grid grid-cols-3 gap-2 mb-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 border border-yellow-500/50 flex items-center justify-center mb-1">
+                                <i class="fa-solid fa-bullseye text-yellow-400 text-sm"></i>
+                            </div>
+                            <span class="text-[8px] text-center text-gray-300 leading-tight">Klik Iklan<br>Dapat Bonus</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 border border-yellow-500/50 flex items-center justify-center mb-1">
+                                <i class="fa-solid fa-users text-yellow-400 text-sm"></i>
+                            </div>
+                            <span class="text-[8px] text-center text-gray-300 leading-tight">Bonus<br>Referral</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 rounded-full bg-slate-800 border border-yellow-500/50 flex items-center justify-center mb-1">
+                                <i class="fa-solid fa-trophy text-yellow-400 text-sm"></i>
+                            </div>
+                            <span class="text-[8px] text-center text-gray-300 leading-tight">Bonus<br>Peringkat</span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="showView('view-register')" class="w-full btn-gold py-2.5 rounded-xl shadow-lg shadow-yellow-500/20 mb-2 text-xs">
+                        <i class="fa-solid fa-hand-point-right mr-1"></i> Daftar Sekarang (Gratis)
+                    </button>
+                    <button onclick="showView('view-login')" class="w-full bg-slate-700 hover:bg-slate-600 py-2 rounded-xl text-[11px] font-semibold transition mb-1.5">
+                        <i class="fa-solid fa-user mr-1"></i> Login User
+                    </button>
+                    <button onclick="showView('view-admin-login')" class="w-full bg-purple-700 hover:bg-purple-600 py-2 rounded-xl text-[11px] font-semibold transition">
+                        <i class="fa-solid fa-user-shield mr-1"></i> Login Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= HALAMAN REGISTER ================= -->
+        <div id="view-register" class="view">
+            <div class="flex-1 p-4 overflow-y-auto">
+                <div class="flex items-center gap-3 mb-6 pt-4">
+                    <button onclick="showView('view-splash')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                    <h2 class="text-lg font-bold">Daftar Member</h2>
+                </div>
+                <div class="bg-gradient-to-r from-yellow-600 to-yellow-400 p-4 rounded-xl text-center mb-6 relative overflow-hidden">
+                    <i class="fa-solid fa-gift text-4xl text-black mb-2"></i>
+                    <h3 class="font-bold text-black text-sm">Bonus Pendaftaran</h3>
+                    <h3 class="font-bold text-black text-2xl" id="reg-bonus-display">Rp 30.000</h3>
+                    <p class="text-black text-xs font-medium">Langsung Masuk Saldo</p>
+                </div>
+                <form onsubmit="handleRegister(event)" class="space-y-4 bg-card p-5 rounded-2xl border border-slate-700">
+                    <div>
+                        <label class="text-xs text-gray-400">Nama Lengkap</label>
+                        <input type="text" id="reg-name" required placeholder="Masukkan nama lengkap" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400">Username</label>
+                        <input type="text" id="reg-username" required placeholder="Username" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400">No. WhatsApp</label>
+                        <input type="number" id="reg-wa" required placeholder="08xxxx" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400">Password</label>
+                        <input type="password" id="reg-password" required placeholder="••••••••" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400">Kode Referral (Opsional)</label>
+                        <input type="text" placeholder="ADS123456" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="agree" required class="w-4 h-4 accent-yellow-500">
+                        <label for="agree" class="text-[10px] text-gray-400">Saya setuju dengan Syarat & Ketentuan</label>
+                    </div>
+                    <button type="submit" class="w-full btn-gold py-3 rounded-xl mt-2 text-sm">Daftar Sekarang</button>
+                </form>
+                <p class="text-center text-xs text-gray-400 mt-4">
+                    Sudah punya akun? <a href="#" onclick="showView('view-login')" class="text-yellow-400 font-semibold">Login</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- ================= HALAMAN LOGIN USER ================= -->
+        <div id="view-login" class="view">
+            <div class="flex-1 p-6 flex flex-col justify-center overflow-y-auto">
+                <div class="text-center mb-6">
+                    <i class="fa-solid fa-star text-5xl text-yellow-400 mb-2 drop-shadow-[0_0_20px_rgba(250,204,21,0.8)]"></i>
+                    <h1 class="text-2xl font-bold gradient-text tracking-wider">ADSTAR ADS</h1>
+                    <p class="text-gray-400 text-xs mt-1">Login Member</p>
+                </div>
+                
+                <div class="bg-card p-6 rounded-2xl shadow-2xl border border-slate-700">
+                    <div class="mb-5">
+                        <p class="text-[10px] text-gray-400 text-center mb-2 uppercase tracking-wider">⚡ Quick Login Demo</p>
+                        <button onclick="quickLoginUser()" class="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black py-3 rounded-xl text-sm font-bold shadow-lg shadow-yellow-500/30 hover:opacity-90 transition">
+                            <i class="fa-solid fa-bolt mr-2"></i>Login Cepat sebagai Reza
+                        </button>
+                        <p class="text-[9px] text-gray-500 text-center mt-2">Username: <b class="text-yellow-400">reza123</b> • Password: <b class="text-yellow-400">user123</b></p>
+                    </div>
+
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="flex-1 h-px bg-slate-700"></div>
+                        <span class="text-[10px] text-gray-500">ATAU MANUAL</span>
+                        <div class="flex-1 h-px bg-slate-700"></div>
+                    </div>
+
+                    <form onsubmit="handleLogin(event)" class="space-y-4">
+                        <div>
+                            <label class="text-xs text-gray-400">Username</label>
+                            <input type="text" id="login-username" required placeholder="Username" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-yellow-400">
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-400">Password</label>
+                            <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-yellow-400">
+                        </div>
+                        <button type="submit" class="w-full btn-gold py-3 rounded-xl mt-2 text-sm">Login</button>
+                    </form>
+
+                    <div class="mt-5 text-center border-t border-slate-700 pt-4">
+                        <p class="text-xs text-gray-400 mb-2">Belum punya akun?</p>
+                        <button onclick="showView('view-register')" class="w-full bg-slate-700 hover:bg-slate-600 py-2.5 rounded-xl text-sm font-semibold transition">Daftar Gratis</button>
+                    </div>
+                    <button onclick="showView('view-splash')" class="w-full text-gray-400 hover:text-white text-xs mt-3">← Kembali ke Beranda</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= HALAMAN LOGIN ADMIN ================= -->
+        <div id="view-admin-login" class="view">
+            <div class="flex-1 p-6 flex flex-col justify-center overflow-y-auto">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 mx-auto mb-3 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(147,51,234,0.5)]">
+                        <i class="fa-solid fa-user-shield text-3xl text-white"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-purple-400">ADMIN PANEL</h1>
+                    <p class="text-gray-400 text-xs mt-1">ADSTAR ADS Management</p>
+                </div>
+                
+                <div class="bg-card p-6 rounded-2xl shadow-2xl border border-purple-700">
+                    <div class="mb-5">
+                        <p class="text-[10px] text-gray-400 text-center mb-2 uppercase tracking-wider">⚡ Quick Login Admin</p>
+                        <button onclick="quickLoginAdmin()" class="w-full admin-badge py-3 rounded-xl text-white text-sm font-bold shadow-lg shadow-purple-500/30 hover:opacity-90 transition">
+                            <i class="fa-solid fa-bolt mr-2"></i>Login Cepat sebagai Admin
+                        </button>
+                        <p class="text-[9px] text-gray-500 text-center mt-2">Username: <b class="text-purple-400">admin</b> • Password: <b class="text-purple-400">admin123</b></p>
+                    </div>
+
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="flex-1 h-px bg-slate-700"></div>
+                        <span class="text-[10px] text-gray-500">ATAU MANUAL</span>
+                        <div class="flex-1 h-px bg-slate-700"></div>
+                    </div>
+
+                    <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                        <div>
+                            <label class="text-xs text-gray-400">Username Admin</label>
+                            <input type="text" id="admin-username" required placeholder="admin" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-purple-400">
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-400">Password Admin</label>
+                            <input type="password" id="admin-password" required placeholder="••••••••" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-purple-400">
+                        </div>
+                        <button type="submit" class="w-full admin-badge py-3 rounded-xl mt-2 text-white font-bold text-sm">
+                            <i class="fa-solid fa-lock mr-2"></i>Login Admin
+                        </button>
+                    </form>
+
+                    <button onclick="showView('view-splash')" class="w-full bg-slate-700 hover:bg-slate-600 py-2.5 rounded-xl text-sm font-semibold transition mt-4">← Kembali</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= DASHBOARD USER ================= -->
+        <div id="view-dashboard" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center justify-between mb-5 pt-2">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center border-2 border-yellow-400"><i class="fa-solid fa-user text-gray-400"></i></div>
+                    <div>
+                        <h2 class="font-semibold text-sm" id="dash-name">User</h2>
+                        <div class="flex items-center gap-1">
+                            <span class="bg-yellow-500 text-black text-[9px] font-bold px-1.5 py-0.5 rounded">Bintang 3</span>
+                            <p class="text-[10px] text-gray-400">ID: <span id="dash-id">ADS123456</span></p>
+                        </div>
+                    </div>
+                </div>
+                <button class="text-gray-400 relative"><i class="fa-solid fa-bell text-lg"></i></button>
+            </div>
+
+            <div class="bg-gradient-to-br from-blue-900 to-slate-800 p-5 rounded-2xl border border-blue-700 shadow-lg mb-5 relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 opacity-10"><i class="fa-solid fa-wallet text-8xl"></i></div>
+                <p class="text-xs text-blue-200">Saldo Saya</p>
+                <h3 class="text-3xl font-bold text-gold mt-1" id="dash-balance">Rp 0</h3>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="alert('Fitur Deposit akan membuka Payment Gateway.')" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg text-xs font-semibold transition"><i class="fa-solid fa-plus mr-1"></i> Deposit</button>
+                    <button onclick="showView('view-withdraw')" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-black py-2 rounded-lg text-xs font-semibold transition"><i class="fa-solid fa-money-bill-wave mr-1"></i> Withdraw</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mb-5">
+                <div class="bg-card p-3 rounded-xl border border-slate-700 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center"><i class="fa-solid fa-bullseye text-blue-400 text-sm"></i></div>
+                    <div><p class="text-[10px] text-gray-400">Bonus Klik</p><p class="text-xs font-bold text-gold" id="info-bonus-klik">Rp 3.000</p></div>
+                </div>
+                <div class="bg-card p-3 rounded-xl border border-slate-700 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center"><i class="fa-solid fa-hand-holding-dollar text-green-400 text-sm"></i></div>
+                    <div><p class="text-[10px] text-gray-400">Bonus Referral</p><p class="text-xs font-bold text-gold" id="info-bonus-ref">Rp 20.000</p></div>
+                </div>
+            </div>
+
+            <h3 class="text-sm font-semibold mb-3">Menu Utama</h3>
+            <div class="grid grid-cols-4 gap-2 mb-6">
+                <div onclick="showView('view-ads')" class="bg-card p-3 rounded-xl flex flex-col items-center cursor-pointer hover:bg-slate-700 transition border border-slate-700">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center mb-2"><i class="fa-solid fa-bullseye text-blue-400"></i></div>
+                    <span class="text-[10px] text-center font-medium leading-tight">Klik<br>Iklan</span>
+                </div>
+                <div onclick="showView('view-referral')" class="bg-card p-3 rounded-xl flex flex-col items-center cursor-pointer hover:bg-slate-700 transition border border-slate-700">
+                    <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center mb-2"><i class="fa-solid fa-users text-green-400"></i></div>
+                    <span class="text-[10px] text-center font-medium leading-tight">Bonus<br>Referral</span>
+                </div>
+                <div onclick="showView('view-rank')" class="bg-card p-3 rounded-xl flex flex-col items-center cursor-pointer hover:bg-slate-700 transition border border-slate-700">
+                    <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center mb-2"><i class="fa-solid fa-trophy text-purple-400"></i></div>
+                    <span class="text-[10px] text-center font-medium leading-tight">Bonus<br>Peringkat</span>
+                </div>
+                <div onclick="showView('view-network')" class="bg-card p-3 rounded-xl flex flex-col items-center cursor-pointer hover:bg-slate-700 transition border border-slate-700">
+                    <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center mb-2"><i class="fa-solid fa-sitemap text-red-400"></i></div>
+                    <span class="text-[10px] text-center font-medium leading-tight">Jaringan<br>Member</span>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-4 gap-2">
+                <div onclick="showView('view-history')" class="bg-card p-2 rounded-xl flex flex-col items-center border border-slate-700 cursor-pointer">
+                    <i class="fa-solid fa-clock-rotate-left text-gray-400 mb-1"></i><span class="text-[9px] text-gray-400">Riwayat</span>
+                </div>
+                <div onclick="showView('view-profile')" class="bg-card p-2 rounded-xl flex flex-col items-center border border-slate-700 cursor-pointer">
+                    <i class="fa-solid fa-user-pen text-gray-400 mb-1"></i><span class="text-[9px] text-gray-400">Edit Profil</span>
+                </div>
+                <div onclick="showView('view-guide')" class="bg-card p-2 rounded-xl flex flex-col items-center border border-slate-700 cursor-pointer">
+                    <i class="fa-solid fa-book text-gray-400 mb-1"></i><span class="text-[9px] text-gray-400">Panduan</span>
+                </div>
+                <div onclick="handleLogout()" class="bg-card p-2 rounded-xl flex flex-col items-center border border-slate-700 cursor-pointer">
+                    <i class="fa-solid fa-right-from-bracket text-red-400 mb-1"></i><span class="text-[9px] text-gray-400">Keluar</span>
+                </div>
+            </div>
+        </div></div>
+
+        <!-- ================= KLIK IKLAN ================= -->
+        <div id="view-ads" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Klik Iklan</h2>
+            </div>
+            <div class="bg-card p-5 rounded-2xl border border-slate-700 text-center mb-4">
+                <h3 class="font-semibold text-sm mb-1">Status Klik Iklan Hari Ini</h3>
+                <p class="text-xs text-gray-400 mb-2">Waktu Tersedia</p>
+                <div class="text-4xl font-bold text-gold mb-5 font-mono" id="ad-timer">15:23:40</div>
+                <div class="bg-slate-800 p-4 rounded-xl mb-4 border border-slate-600">
+                    <p class="text-sm font-semibold text-blue-400 mb-1">Iklan Siap Diklik</p>
+                    <p class="text-xs text-gray-400 mb-3">Klik sekarang untuk mendapatkan bonus <span id="ad-bonus-label">Rp 3.000</span></p>
+                    <button id="btn-klik-ad" onclick="startAdProcess()" class="w-full btn-gold py-3 rounded-xl text-sm">Klik Iklan Sekarang</button>
+                </div>
+            </div>
+            <div class="bg-card p-4 rounded-xl border border-slate-700">
+                <h4 class="text-sm font-semibold mb-2 text-gold">Ketentuan:</h4>
+                <ul class="text-xs text-gray-400 space-y-2">
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-check-circle text-green-400 mt-0.5"></i> Klik iklan hanya bisa dilakukan 1 kali per hari.</li>
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-check-circle text-green-400 mt-0.5"></i> Iklan harus ditonton hingga waktu habis.</li>
+                    <li class="flex items-start gap-2"><i class="fa-solid fa-check-circle text-green-400 mt-0.5"></i> Bonus akan masuk otomatis ke saldo Anda.</li>
+                </ul>
+            </div>
+        </div></div>
+
+        <!-- ================= BONUS PERINGKAT ================= -->
+        <div id="view-rank" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Bonus Peringkat</h2>
+            </div>
+            <div class="text-center mb-6">
+                <i class="fa-solid fa-trophy text-5xl text-yellow-400 mb-2"></i>
+                <h3 class="font-semibold text-lg">Sistem Peringkat Bintang</h3>
+                <p class="text-xs text-gray-400">Semakin tinggi peringkat, semakin besar bonus!</p>
+            </div>
+            <div class="space-y-3" id="rank-list"></div>
+        </div></div>
+
+        <!-- ================= BONUS REFERRAL ================= -->
+        <div id="view-referral" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Bonus Referral</h2>
+            </div>
+            <div class="bg-gradient-to-r from-purple-900 to-blue-900 p-5 rounded-xl border border-purple-500 mb-4 text-center">
+                <h3 class="font-bold text-lg mb-1">Undang Teman,</h3>
+                <h3 class="font-bold text-lg text-gold">Dapatkan Penghasilan!</h3>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="bg-card p-4 rounded-xl border border-slate-700 text-center">
+                    <p class="text-xs text-gray-400 mb-1">Bonus Referral</p>
+                    <p class="text-xl font-bold text-green-400" id="ref-bonus-display">Rp 20.000</p>
+                    <p class="text-[10px] text-gray-500 mt-1">Setiap member yang anda sponsori</p>
+                </div>
+                <div class="bg-card p-4 rounded-xl border border-slate-700 text-center">
+                    <p class="text-xs text-gray-400 mb-1">Bonus Team</p>
+                    <p class="text-xl font-bold text-blue-400" id="ref-team-display">5%</p>
+                    <p class="text-[10px] text-gray-500 mt-1">Dari bonus klik iklan member</p>
+                </div>
+            </div>
+            <div class="bg-card p-4 rounded-xl border border-slate-700 mb-4">
+                <p class="text-xs text-gray-400 mb-2">Link / Kode Referral Anda</p>
+                <div class="flex gap-2">
+                    <input type="text" readonly id="ref-link" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2 text-xs text-gray-300 focus:outline-none">
+                    <button onclick="copyRefLink()" class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 rounded-lg text-xs font-bold">Salin</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                <div class="bg-slate-800 p-2 rounded-lg"><p class="text-[10px] text-gray-400">Total Referral</p><p class="text-sm font-bold">127</p></div>
+                <div class="bg-slate-800 p-2 rounded-lg"><p class="text-[10px] text-gray-400">Bonus Ref</p><p class="text-sm font-bold text-green-400">Rp 240K</p></div>
+                <div class="bg-slate-800 p-2 rounded-lg"><p class="text-[10px] text-gray-400">Bonus Team</p><p class="text-sm font-bold text-blue-400">Rp 56K</p></div>
+            </div>
+        </div></div>
+
+        <!-- ================= JARINGAN MEMBER ================= -->
+        <div id="view-network" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Jaringan Member</h2>
+            </div>
+            <div class="bg-card p-5 rounded-xl border border-slate-700 text-center mb-4">
+                <p class="text-xs text-gray-400 mb-1">Total Jaringan</p>
+                <h3 class="text-3xl font-bold text-gold">127 Member</h3>
+            </div>
+            <div class="grid grid-cols-3 gap-2 mb-6">
+                <div class="bg-slate-800 p-3 rounded-xl border border-slate-600 text-center"><p class="text-[10px] text-gray-400">Level 1</p><p class="text-xl font-bold">35</p></div>
+                <div class="bg-slate-800 p-3 rounded-xl border border-slate-600 text-center"><p class="text-[10px] text-gray-400">Level 2</p><p class="text-xl font-bold">56</p></div>
+                <div class="bg-slate-800 p-3 rounded-xl border border-slate-600 text-center"><p class="text-[10px] text-gray-400">Level 3</p><p class="text-xl font-bold">36</p></div>
+            </div>
+            <div class="bg-card p-4 rounded-xl border border-slate-700 h-56 relative overflow-hidden">
+                <svg class="network-svg absolute inset-0 w-full h-full">
+                    <line x1="50%" y1="50%" x2="20%" y2="20%" /><line x1="50%" y1="50%" x2="80%" y2="20%" />
+                    <line x1="50%" y1="50%" x2="20%" y2="80%" /><line x1="50%" y1="50%" x2="80%" y2="80%" />
+                    <line x1="50%" y1="50%" x2="50%" y2="10%" /><line x1="50%" y1="50%" x2="10%" y2="50%" />
+                    <line x1="50%" y1="50%" x2="90%" y2="50%" />
+                </svg>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+                    <div class="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center border-4 border-slate-800"><i class="fa-solid fa-user text-white text-xl"></i></div>
+                </div>
+                <div class="absolute top-[15%] left-[15%] w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center border-2 border-slate-800 z-10"><i class="fa-solid fa-user text-gray-400 text-sm"></i></div>
+                <div class="absolute top-[15%] right-[15%] w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center border-2 border-slate-800 z-10"><i class="fa-solid fa-user text-gray-400 text-sm"></i></div>
+                <div class="absolute bottom-[15%] left-[15%] w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center border-2 border-slate-800 z-10"><i class="fa-solid fa-user text-gray-400 text-sm"></i></div>
+                <div class="absolute bottom-[15%] right-[15%] w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center border-2 border-slate-800 z-10"><i class="fa-solid fa-user text-gray-400 text-sm"></i></div>
+            </div>
+        </div></div>
+
+        <!-- ================= WITHDRAW ================= -->
+        <div id="view-withdraw" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Withdraw</h2>
+            </div>
+            <div class="bg-card p-4 rounded-xl border border-slate-700 mb-4">
+                <div class="flex items-center gap-2 mb-3">
+                    <i class="fa-solid fa-circle-info text-yellow-400"></i>
+                    <p class="text-xs text-yellow-400 font-semibold">Maksimal 1 kali withdraw per hari</p>
+                </div>
+                <p class="text-xs text-gray-400 mb-1">Saldo Dapat Ditarik</p>
+                <h3 class="text-2xl font-bold text-gold mb-1" id="wd-balance">Rp 0</h3>
+                <p class="text-[10px] text-gray-500 mb-4">Minimal withdraw: <span id="wd-min-display" class="text-gold">Rp 50.000</span></p>
+                <form onsubmit="handleWithdraw(event)" class="space-y-4">
+                    <div>
+                        <label class="text-xs text-gray-400">Pilih Metode</label>
+                        <select id="wd-method" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-yellow-400">
+                            <option value="Dana">Dana</option><option value="OVO">OVO</option>
+                            <option value="GoPay">GoPay</option><option value="Bank BCA">Bank BCA</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400">Nomor Dana / Rekening</label>
+                        <input type="text" id="wd-account" required placeholder="08xxxx" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400">Jumlah Withdraw</label>
+                        <input type="number" id="wd-amount" required placeholder="50000" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 mt-1 text-sm focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <button type="submit" class="w-full btn-gold py-3 rounded-xl mt-2 text-sm">Ajukan Withdraw</button>
+                </form>
+            </div>
+        </div></div>
+
+        <!-- ================= EDIT PROFIL ================= -->
+        <div id="view-profile" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Edit Profil</h2>
+            </div>
+            <div class="flex flex-col items-center mb-6">
+                <div class="w-24 h-24 rounded-full bg-slate-700 flex items-center justify-center border-4 border-yellow-400 mb-2 relative">
+                    <i class="fa-solid fa-user text-4xl text-gray-400"></i>
+                    <div class="absolute bottom-0 right-0 bg-yellow-500 w-8 h-8 rounded-full flex items-center justify-center text-black cursor-pointer border-2 border-slate-900"><i class="fa-solid fa-camera text-sm"></i></div>
+                </div>
+            </div>
+            <form onsubmit="handleSaveProfile(event)" class="space-y-3 bg-card p-5 rounded-2xl border border-slate-700">
+                <div><label class="text-xs text-gray-400">Nama Lengkap</label><input type="text" id="prof-name" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 text-sm mt-1 focus:outline-none focus:border-yellow-400"></div>
+                <div><label class="text-xs text-gray-400">Username</label><input type="text" id="prof-username" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 text-sm mt-1 text-gray-500" readonly></div>
+                <div><label class="text-xs text-gray-400">No. WhatsApp</label><input type="number" id="prof-wa" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 text-sm mt-1 focus:outline-none focus:border-yellow-400"></div>
+                <div><label class="text-xs text-gray-400">Email</label><input type="email" id="prof-email" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 text-sm mt-1 focus:outline-none focus:border-yellow-400"></div>
+                <div><label class="text-xs text-gray-400">Ubah Password (Opsional)</label><input type="password" id="prof-password" placeholder="••••••••" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 text-sm mt-1 focus:outline-none focus:border-yellow-400"></div>
+                <button type="submit" class="w-full btn-gold py-3 rounded-xl mt-4 text-sm">Simpan Perubahan</button>
+                <button type="button" onclick="handleLogout()" class="w-full btn-danger py-3 rounded-xl mt-2 text-sm"><i class="fa-solid fa-right-from-bracket mr-2"></i>Keluar Akun</button>
+            </form>
+        </div></div>
+
+        <!-- ================= RIWAYAT ================= -->
+        <div id="view-history" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Riwayat Transaksi</h2>
+            </div>
+            <div class="flex gap-2 mb-4 overflow-x-auto hide-scrollbar pb-1">
+                <button onclick="filterHistory('semua', this)" class="bg-yellow-500 text-black px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Semua</button>
+                <button onclick="filterHistory('iklan', this)" class="bg-slate-700 text-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Iklan</button>
+                <button onclick="filterHistory('referral', this)" class="bg-slate-700 text-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Referral</button>
+                <button onclick="filterHistory('wd', this)" class="bg-slate-700 text-gray-300 px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">WD</button>
+            </div>
+            <div class="space-y-3" id="history-list"></div>
+        </div></div>
+
+        <!-- ================= PANDUAN ================= -->
+        <div id="view-guide" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Panduan & Ketentuan</h2>
+            </div>
+            <div class="bg-card p-4 rounded-xl border border-slate-700 mb-4">
+                <h3 class="font-semibold text-sm mb-3 text-gold"><i class="fa-solid fa-circle-play mr-2"></i>Cara Mendapatkan Penghasilan</h3>
+                <ol class="text-xs text-gray-300 space-y-3 list-decimal list-inside">
+                    <li>Daftar gratis dan dapat bonus pendaftaran</li>
+                    <li>Klik iklan setiap hari secara waktu</li>
+                    <li>Ajak teman dengan link referral anda</li>
+                    <li>Bangun jaringan yang lebih luas</li>
+                    <li>Naikkan peringkat untuk bonus lebih besar</li>
+                </ol>
+            </div>
+            <div class="bg-gradient-to-r from-yellow-600 to-yellow-400 p-5 rounded-2xl text-center">
+                <i class="fa-solid fa-trophy text-4xl text-black mb-2"></i>
+                <h3 class="font-bold text-black text-lg">Bersama ADSTAR ADS</h3>
+                <p class="text-black text-xs font-semibold">Klik Iklan, Raih Penghasilan Tanpa Batas!</p>
+            </div>
+        </div></div>
+
+        <!-- ================= ADMIN DASHBOARD ================= -->
+        <div id="view-admin-dashboard" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center justify-between mb-5 pt-2">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg admin-badge flex items-center justify-center"><i class="fa-solid fa-user-shield text-white"></i></div>
+                    <div><h2 class="font-semibold text-sm">Admin Panel</h2><p class="text-[10px] text-purple-400">ADSTAR ADS Management</p></div>
+                </div>
+                <button onclick="handleAdminLogout()" class="text-red-400 text-xs font-semibold"><i class="fa-solid fa-power-off mr-1"></i>Logout</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="bg-gradient-to-br from-blue-900 to-slate-800 p-4 rounded-xl border border-blue-700">
+                    <i class="fa-solid fa-users text-blue-400 text-xl mb-2"></i>
+                    <p class="text-xs text-gray-300">Total User</p>
+                    <p class="text-2xl font-bold text-white" id="admin-total-users">0</p>
+                </div>
+                <div class="bg-gradient-to-br from-green-900 to-slate-800 p-4 rounded-xl border border-green-700">
+                    <i class="fa-solid fa-money-bill-trend-up text-green-400 text-xl mb-2"></i>
+                    <p class="text-xs text-gray-300">Total Saldo User</p>
+                    <p class="text-lg font-bold text-white" id="admin-total-balance">Rp 0</p>
+                </div>
+                <div class="bg-gradient-to-br from-yellow-900 to-slate-800 p-4 rounded-xl border border-yellow-700">
+                    <i class="fa-solid fa-clock-rotate-left text-yellow-400 text-xl mb-2"></i>
+                    <p class="text-xs text-gray-300">WD Pending</p>
+                    <p class="text-2xl font-bold text-white" id="admin-pending-wd">0</p>
+                </div>
+                <div class="bg-gradient-to-br from-purple-900 to-slate-800 p-4 rounded-xl border border-purple-700">
+                    <i class="fa-solid fa-chart-line text-purple-400 text-xl mb-2"></i>
+                    <p class="text-xs text-gray-300">Total Transaksi</p>
+                    <p class="text-2xl font-bold text-white" id="admin-total-trx">0</p>
+                </div>
+            </div>
+
+            <h3 class="text-sm font-semibold mb-3">Menu Admin</h3>
+            <div class="grid grid-cols-3 gap-3 mb-5">
+                <div onclick="showView('view-admin-users')" class="bg-card p-4 rounded-xl flex flex-col items-center cursor-pointer hover:bg-slate-700 border border-slate-700">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-2"><i class="fa-solid fa-users-gear text-blue-400 text-xl"></i></div>
+                    <span class="text-[10px] text-center">Kelola<br>User</span>
+                </div>
+                <div onclick="showView('view-admin-withdrawals')" class="bg-card p-4 rounded-xl flex flex-col items-center cursor-pointer hover:bg-slate-700 border border-slate-700">
+                    <div class="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center mb-2"><i class="fa-solid fa-money-bill-transfer text-yellow-400 text-xl"></i></div>
+                    <span class="text-[10px] text-center">Permintaan<br>Withdraw</span>
+                </div>
+                <div onclick="showView('view-admin-settings')" class="bg-card p-4 rounded-xl flex flex-col items-center cursor-pointer hover:bg-slate-700 border border-slate-700">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-2"><i class="fa-solid fa-gear text-purple-400 text-xl"></i></div>
+                    <span class="text-[10px] text-center">Pengaturan<br>Sistem</span>
+                </div>
+            </div>
+
+            <div class="bg-card p-4 rounded-xl border border-slate-700">
+                <h3 class="text-sm font-semibold mb-3"><i class="fa-solid fa-bell text-yellow-400 mr-2"></i>Aktivitas Terbaru</h3>
+                <div id="admin-recent-activity" class="space-y-2 text-xs text-gray-400"><p class="text-center py-4">Memuat...</p></div>
+            </div>
+        </div></div>
+
+        <!-- ================= ADMIN: KELOLA USER ================= -->
+        <div id="view-admin-users" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-admin-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Kelola User</h2>
+            </div>
+            <div class="bg-card p-3 rounded-xl border border-slate-700 mb-4">
+                <input type="text" id="admin-search-user" oninput="renderAdminUsers()" placeholder="Cari user..." class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2 text-sm focus:outline-none focus:border-purple-400">
+            </div>
+            <div id="admin-users-list" class="space-y-3"></div>
+            <button onclick="openAddUserModal()" class="fixed bottom-6 right-6 w-14 h-14 rounded-full btn-gold flex items-center justify-center shadow-lg shadow-yellow-500/40 z-40">
+                <i class="fa-solid fa-plus text-xl"></i>
+            </button>
+        </div></div>
+
+        <!-- ================= ADMIN: WITHDRAWAL REQUESTS ================= -->
+        <div id="view-admin-withdrawals" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-admin-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Permintaan Withdraw</h2>
+            </div>
+            <div id="admin-wd-list" class="space-y-3"></div>
+        </div></div>
+
+        <!-- ================= ADMIN: PENGATURAN SISTEM ================= -->
+        <div id="view-admin-settings" class="view"><div class="flex-1 p-4 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-6 pt-2">
+                <button onclick="showView('view-admin-dashboard')" class="text-gray-400"><i class="fa-solid fa-arrow-left text-xl"></i></button>
+                <h2 class="text-lg font-bold">Pengaturan Sistem</h2>
+            </div>
+            <form onsubmit="handleSaveSettings(event)" class="space-y-4">
+                <div class="bg-card p-4 rounded-xl border border-slate-700">
+                    <h3 class="text-sm font-semibold text-gold mb-3"><i class="fa-solid fa-gift mr-2"></i>Bonus & Pembayaran</h3>
+                    <div class="space-y-3">
+                        <div><label class="text-xs text-gray-400">Bonus Pendaftaran (Rp)</label><input type="number" id="set-bonus-register" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm mt-1 focus:outline-none focus:border-yellow-400"></div>
+                        <div><label class="text-xs text-gray-400">Bonus Klik Iklan (Rp)</label><input type="number" id="set-bonus-ads" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm mt-1 focus:outline-none focus:border-yellow-400"></div>
+                        <div><label class="text-xs text-gray-400">Bonus Referral (Rp)</label><input type="number" id="set-bonus-ref" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm mt-1 focus:outline-none focus:border-yellow-400"></div>
+                        <div><label class="text-xs text-gray-400">Bonus Team (%)</label><input type="number" id="set-bonus-team" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm mt-1 focus:outline-none focus:border-yellow-400"></div>
+                    </div>
+                </div>
+                <div class="bg-card p-4 rounded-xl border border-slate-700">
+                    <h3 class="text-sm font-semibold text-gold mb-3"><i class="fa-solid fa-money-bill-wave mr-2"></i>Withdraw</h3>
+                    <div class="space-y-3">
+                        <div><label class="text-xs text-gray-400">Minimal Withdraw (Rp)</label><input type="number" id="set-min-wd" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm mt-1 focus:outline-none focus:border-yellow-400"></div>
+                        <div><label class="text-xs text-gray-400">Max Withdraw / Hari (Rp)</label><input type="number" id="set-max-wd" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm mt-1 focus:outline-none focus:border-yellow-400"></div>
+                    </div>
+                </div>
+                <div class="bg-card p-4 rounded-xl border border-slate-700">
+                    <h3 class="text-sm font-semibold text-gold mb-3"><i class="fa-solid fa-sliders mr-2"></i>Fitur</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between"><label class="text-xs">Mode Maintenance</label><input type="checkbox" id="set-maintenance" class="w-4 h-4 accent-yellow-500"></div>
+                        <div class="flex items-center justify-between"><label class="text-xs">Registrasi Dibuka</label><input type="checkbox" id="set-registration" class="w-4 h-4 accent-yellow-500"></div>
+                        <div class="flex items-center justify-between"><label class="text-xs">Auto-Approve Withdraw</label><input type="checkbox" id="set-auto-wd" class="w-4 h-4 accent-yellow-500"></div>
+                    </div>
+                </div>
+                <button type="submit" class="w-full btn-gold py-3 rounded-xl text-sm"><i class="fa-solid fa-save mr-2"></i>Simpan Pengaturan</button>
+            </form>
+        </div></div>
+
+        <!-- ================= BOTTOM NAV ================= -->
+        <div id="bottom-nav" class="hidden fixed bottom-0 w-full max-w-[430px] bg-[#111827] border-t border-[#1F2937] flex justify-around py-2 z-50" style="left: 50%; transform: translateX(-50%);">
+            <div onclick="showView('view-dashboard')" class="bottom-nav-item flex flex-col items-center text-gray-400 cursor-pointer w-16" data-view="view-dashboard">
+                <i class="fa-solid fa-house text-lg mb-1"></i><span class="text-[9px]">Home</span>
+            </div>
+            <div onclick="showView('view-ads')" class="bottom-nav-item flex flex-col items-center text-gray-400 cursor-pointer w-16" data-view="view-ads">
+                <i class="fa-solid fa-bullseye text-lg mb-1"></i><span class="text-[9px]">Klik Iklan</span>
+            </div>
+            <div onclick="showView('view-rank')" class="bottom-nav-item flex flex-col items-center text-gray-400 cursor-pointer w-16" data-view="view-rank">
+                <i class="fa-solid fa-trophy text-lg mb-1"></i><span class="text-[9px]">Peringkat</span>
+            </div>
+            <div onclick="showView('view-network')" class="bottom-nav-item flex flex-col items-center text-gray-400 cursor-pointer w-16" data-view="view-network">
+                <i class="fa-solid fa-users text-lg mb-1"></i><span class="text-[9px]">Member</span>
+            </div>
+            <div onclick="showView('view-profile')" class="bottom-nav-item flex flex-col items-center text-gray-400 cursor-pointer w-16" data-view="view-profile">
+                <i class="fa-solid fa-user text-lg mb-1"></i><span class="text-[9px]">Akun</span>
+            </div>
+        </div>
+
+        <!-- ================= MODAL TAMBAH USER ================= -->
+        <div id="modal-add-user" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+            <div class="bg-card p-6 rounded-2xl border border-purple-500 w-full max-w-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-purple-400">Tambah User Baru</h3>
+                    <button onclick="closeAddUserModal()" class="text-gray-400"><i class="fa-solid fa-times"></i></button>
+                </div>
+                <form onsubmit="handleAdminAddUser(event)" class="space-y-3">
+                    <input type="text" id="add-user-name" required placeholder="Nama lengkap" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm focus:outline-none focus:border-purple-400">
+                    <input type="text" id="add-user-username" required placeholder="Username" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm focus:outline-none focus:border-purple-400">
+                    <input type="password" id="add-user-password" required placeholder="Password" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm focus:outline-none focus:border-purple-400">
+                    <input type="number" id="add-user-balance" placeholder="Saldo awal (Rp)" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm focus:outline-none focus:border-purple-400">
+                    <button type="submit" class="w-full admin-badge py-3 rounded-xl text-white font-bold text-sm">Simpan User</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ================= MODAL EDIT USER ================= -->
+        <div id="modal-edit-user" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+            <div class="bg-card p-6 rounded-2xl border border-purple-500 w-full max-w-sm">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-purple-400">Edit User</h3>
+                    <button onclick="closeEditUserModal()" class="text-gray-400"><i class="fa-solid fa-times"></i></button>
+                </div>
+                <form onsubmit="handleAdminEditUser(event)" class="space-y-3">
+                    <input type="hidden" id="edit-user-id">
+                    <div><label class="text-xs text-gray-400">Nama</label><input type="text" id="edit-user-name" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm mt-1 focus:outline-none focus:border-purple-400"></div>
+                    <div><label class="text-xs text-gray-400">Username</label><input type="text" id="edit-user-username" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm mt-1 focus:outline-none focus:border-purple-400"></div>
+                    <div><label class="text-xs text-gray-400">Password (Opsional)</label><input type="password" id="edit-user-password" placeholder="••••••••" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm mt-1 focus:outline-none focus:border-purple-400"></div>
+                    <div><label class="text-xs text-gray-400">Saldo</label><input type="number" id="edit-user-balance" class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-sm mt-1 focus:outline-none focus:border-purple-400"></div>
+                    <div class="flex gap-2 pt-2">
+                        <button type="button" onclick="handleAdminDeleteUser()" class="flex-1 btn-danger py-3 rounded-xl text-sm">Hapus</button>
+                        <button type="submit" class="flex-1 admin-badge py-3 rounded-xl text-white font-bold text-sm">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        const DEFAULT_USERS = [
+            { id: 'ADS123456', name: 'Reza Ardiansyah', username: 'reza123', password: 'user123', wa: '08123456789', email: 'reza@gmail.com', balance: 123450, rank: 3 }
+        ];
+        const DEFAULT_SETTINGS = {
+            bonusRegister: 30000, bonusAds: 3000, bonusReferral: 20000, bonusTeam: 5,
+            minWithdraw: 50000, maxWithdraw: 500000,
+            maintenance: false, registration: true, autoWD: false
+        };
+        const DEFAULT_TRANSACTIONS = [
+            { id: 1, userId: 'ADS123456', type: 'iklan', title: 'Bonus Klik Iklan', date: '03 Sep 2026, 10:20', amount: 3000, status: 'sukses' },
+            { id: 2, userId: 'ADS123456', type: 'referral', title: 'Bonus Referral', date: '03 Sep 2026, 14:10', amount: 20000, status: 'sukses' },
+            { id: 3, userId: 'ADS123456', type: 'wd', title: 'Withdraw Dana', date: '03 Sep 2026, 08:00', amount: -50000, status: 'pending' }
+        ];
+        const DEFAULT_ADMIN = { username: 'admin', password: 'admin123' };
+
+        let state = {
+            currentUser: null, isAdmin: false,
+            users: [...DEFAULT_USERS],
+            transactions: [...DEFAULT_TRANSACTIONS],
+            settings: { ...DEFAULT_SETTINGS },
+            hasClickedAdToday: {}
+        };
+
+        function saveState() { localStorage.setItem('adstarFullState', JSON.stringify(state)); }
+        function loadState() {
+            const saved = localStorage.getItem('adstarFullState');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                state = { ...state, ...parsed };
+                state.settings = { ...DEFAULT_SETTINGS, ...parsed.settings };
+            } else { saveState(); }
+        }
+        function getCurrentUser() { return state.users.find(u => u.id === state.currentUser); }
+
+        function updateContainerPadding() {
+            const nav = document.getElementById('bottom-nav');
+            const container = document.getElementById('appContainer');
+            if (nav.classList.contains('hidden')) container.classList.remove('with-nav');
+            else container.classList.add('with-nav');
+        }
+
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(div => div.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            
+            document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-view') === viewId) item.classList.add('active');
+            });
+
+            if (viewId === 'view-dashboard') updateDashboardUI();
+            if (viewId === 'view-withdraw') updateWithdrawUI();
+            if (viewId === 'view-profile') updateProfileUI();
+            if (viewId === 'view-history') renderHistory('semua');
+            if (viewId === 'view-ads') checkAdStatus();
+            if (viewId === 'view-referral') updateReferralUI();
+            if (viewId === 'view-rank') renderRankList();
+            if (viewId === 'view-admin-dashboard') renderAdminDashboard();
+            if (viewId === 'view-admin-users') renderAdminUsers();
+            if (viewId === 'view-admin-withdrawals') renderAdminWD();
+            if (viewId === 'view-admin-settings') loadAdminSettings();
+            if (viewId === 'view-splash') updateSplashUI();
+
+            window.scrollTo(0, 0);
+        }
+
+        function showToast(msg, color = '#FACC15') {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.borderColor = color;
+            toast.innerHTML = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        function updateSplashUI() {
+            document.getElementById('splash-bonus-text').innerText = `Langsung Dapat Rp ${state.settings.bonusRegister.toLocaleString('id-ID')}`;
+            document.getElementById('reg-bonus-display').innerText = `Rp ${state.settings.bonusRegister.toLocaleString('id-ID')}`;
+        }
+
+        // ========== QUICK LOGIN ==========
+        function quickLoginUser() {
+            let user = state.users.find(u => u.username === 'reza123');
+            if (!user) {
+                user = {
+                    id: 'ADS123456', name: 'Reza Ardiansyah', username: 'reza123',
+                    password: 'user123', wa: '08123456789', email: 'reza@gmail.com',
+                    balance: 123450, rank: 3
+                };
+                state.users.push(user);
+            }
+            state.currentUser = user.id;
+            state.isAdmin = false;
+            saveState();
+            document.getElementById('bottom-nav').classList.remove('hidden');
+            updateContainerPadding();
+            showView('view-dashboard');
+            showToast('Login cepat berhasil! ⚡', '#FACC15');
+        }
+
+        function quickLoginAdmin() {
+            state.isAdmin = true;
+            state.currentUser = null;
+            saveState();
+            document.getElementById('bottom-nav').classList.add('hidden');
+            updateContainerPadding();
+            showView('view-admin-dashboard');
+            showToast('Login Admin cepat! ⚡', '#A855F7');
+        }
+
+        // ========== AUTH ==========
+        function handleRegister(event) {
+            event.preventDefault();
+            if (!state.settings.registration) { alert('Registrasi sedang ditutup oleh Admin.'); return; }
+            const name = document.getElementById('reg-name').value;
+            const username = document.getElementById('reg-username').value;
+            const wa = document.getElementById('reg-wa').value;
+            const password = document.getElementById('reg-password').value;
+            if (state.users.find(u => u.username === username)) { alert('Username sudah digunakan!'); return; }
+
+            const newUser = {
+                id: 'ADS' + Math.floor(100000 + Math.random() * 900000),
+                name, username, password, wa, email: '',
+                balance: state.settings.bonusRegister, rank: 1
+            };
+            state.users.push(newUser);
+            state.transactions.unshift({
+                id: Date.now(), userId: newUser.id, type: 'topup', title: 'Bonus Pendaftaran',
+                date: new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                amount: state.settings.bonusRegister, status: 'sukses'
+            });
+            state.currentUser = newUser.id;
+            state.isAdmin = false;
+            saveState();
+            document.getElementById('bottom-nav').classList.remove('hidden');
+            updateContainerPadding();
+            showView('view-dashboard');
+            showToast('Pendaftaran berhasil! 🎉');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            const user = state.users.find(u => u.username === username && u.password === password);
+            if (!user) { alert('Username atau password salah!'); return; }
+            state.currentUser = user.id;
+            state.isAdmin = false;
+            saveState();
+            document.getElementById('bottom-nav').classList.remove('hidden');
+            updateContainerPadding();
+            showView('view-dashboard');
+            showToast('Login berhasil! 👋');
+        }
+
+        function handleLogout() {
+            if (!confirm('Yakin ingin keluar?')) return;
+            state.currentUser = null; state.isAdmin = false; saveState();
+            document.getElementById('bottom-nav').classList.add('hidden');
+            updateContainerPadding();
+            showView('view-splash');
+        }
+
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+            if (username !== DEFAULT_ADMIN.username || password !== DEFAULT_ADMIN.password) {
+                alert('Kredensial admin salah!'); return;
+            }
+            state.isAdmin = true; state.currentUser = null; saveState();
+            document.getElementById('bottom-nav').classList.add('hidden');
+            updateContainerPadding();
+            showView('view-admin-dashboard');
+            showToast('Login Admin berhasil! 🔐', '#A855F7');
+        }
+
+        function handleAdminLogout() {
+            if (!confirm('Logout dari Admin Panel?')) return;
+            state.isAdmin = false; saveState();
+            updateContainerPadding();
+            showView('view-splash');
+        }
+
+        // ========== DASHBOARD ==========
+        function updateDashboardUI() {
+            const user = getCurrentUser(); if (!user) return;
+            document.getElementById('dash-name').innerText = user.name;
+            document.getElementById('dash-id').innerText = user.id;
+            document.getElementById('dash-balance').innerText = `Rp ${user.balance.toLocaleString('id-ID')}`;
+            document.getElementById('info-bonus-klik').innerText = `Rp ${state.settings.bonusAds.toLocaleString('id-ID')}`;
+            document.getElementById('info-bonus-ref').innerText = `Rp ${state.settings.bonusReferral.toLocaleString('id-ID')}`;
+        }
+
+        // ========== IKLAN ==========
+        function checkAdStatus() {
+            const user = getCurrentUser();
+            const btn = document.getElementById('btn-klik-ad');
+            document.getElementById('ad-bonus-label').innerText = `Rp ${state.settings.bonusAds.toLocaleString('id-ID')}`;
+            if (state.hasClickedAdToday[user.id]) {
+                btn.innerHTML = `<i class="fa-solid fa-check mr-2"></i>Iklan Selesai (Bonus Rp ${state.settings.bonusAds.toLocaleString('id-ID')})`;
+                btn.classList.remove('btn-gold');
+                btn.classList.add('bg-green-500', 'text-white');
+                btn.disabled = true;
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-hand-pointer mr-2"></i>Klik Iklan Sekarang';
+                btn.classList.add('btn-gold');
+                btn.classList.remove('bg-green-500', 'text-white');
+                btn.disabled = false;
+            }
+        }
+
+        function startAdProcess() {
+            const user = getCurrentUser();
+            if (state.hasClickedAdToday[user.id]) return;
+            const btn = document.getElementById('btn-klik-ad');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Menunggu Iklan...';
+            btn.disabled = true;
+            let timeLeft = 5;
+            const timerDisplay = document.getElementById('ad-timer');
+            const interval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = `00:00:0${timeLeft}`;
+                if (timeLeft <= 0) { clearInterval(interval); claimAdReward(); }
+            }, 1000);
+        }
+
+        function claimAdReward() {
+            const user = getCurrentUser();
+            state.hasClickedAdToday[user.id] = true;
+            user.balance += state.settings.bonusAds;
+            state.transactions.unshift({
+                id: Date.now(), userId: user.id, type: 'iklan', title: 'Bonus Klik Iklan',
+                date: new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                amount: state.settings.bonusAds, status: 'sukses'
+            });
+            saveState();
+            checkAdStatus();
+            updateDashboardUI();
+            showToast(`+Rp ${state.settings.bonusAds.toLocaleString('id-ID')} ditambahkan! 💰`, '#10B981');
+        }
+
+        // ========== WITHDRAW ==========
+        function updateWithdrawUI() {
+            const user = getCurrentUser();
+            document.getElementById('wd-balance').innerText = `Rp ${user.balance.toLocaleString('id-ID')}`;
+            document.getElementById('wd-min-display').innerText = `Rp ${state.settings.minWithdraw.toLocaleString('id-ID')}`;
+        }
+
+        function handleWithdraw(event) {
+            event.preventDefault();
+            const user = getCurrentUser();
+            const amount = parseInt(document.getElementById('wd-amount').value);
+            const method = document.getElementById('wd-method').value;
+            const account = document.getElementById('wd-account').value;
+            if (amount > user.balance) return alert("Saldo tidak mencukupi!");
+            if (amount < state.settings.minWithdraw) return alert(`Minimal withdraw Rp ${state.settings.minWithdraw.toLocaleString('id-ID')}.`);
+            if (amount > state.settings.maxWithdraw) return alert(`Maksimal withdraw Rp ${state.settings.maxWithdraw.toLocaleString('id-ID')}.`);
+            user.balance -= amount;
+            state.transactions.unshift({
+                id: Date.now(), userId: user.id, type: 'wd', title: `Withdraw ${method}`,
+                date: new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                amount: -amount, status: state.settings.autoWD ? 'berhasil' : 'pending',
+                account, method
+            });
+            saveState();
+            updateWithdrawUI(); updateDashboardUI();
+            showToast(state.settings.autoWD ? 'Withdraw berhasil! ✅' : 'Withdraw dalam proses review admin ⏳', '#FACC15');
+            document.getElementById('wd-amount').value = '';
+            document.getElementById('wd-account').value = '';
+        }
+
+        // ========== PROFIL ==========
+        function updateProfileUI() {
+            const user = getCurrentUser();
+            document.getElementById('prof-name').value = user.name;
+            document.getElementById('prof-username').value = user.username;
+            document.getElementById('prof-wa').value = user.wa;
+            document.getElementById('prof-email').value = user.email || '';
+            document.getElementById('prof-password').value = '';
+        }
+
+        function handleSaveProfile(event) {
+            event.preventDefault();
+            const user = getCurrentUser();
+            user.name = document.getElementById('prof-name').value;
+            user.wa = document.getElementById('prof-wa').value;
+            user.email = document.getElementById('prof-email').value;
+            const newPass = document.getElementById('prof-password').value;
+            if (newPass) user.password = newPass;
+            saveState(); updateDashboardUI();
+            showToast('Profil diperbarui! ✨', '#10B981');
+        }
+
+        // ========== RIWAYAT ==========
+        function renderHistory(filter = 'semua') {
+            const list = document.getElementById('history-list');
+            const user = getCurrentUser();
+            let data = state.transactions.filter(t => t.userId === user.id);
+            if (filter !== 'semua') data = data.filter(t => t.type === filter);
+            if (data.length === 0) {
+                list.innerHTML = '<p class="text-center text-xs text-gray-500 py-10">Belum ada transaksi.</p>';
+                return;
+            }
+            list.innerHTML = data.map(t => {
+                const isPos = t.amount > 0;
+                const icon = t.type === 'iklan' ? 'fa-bullseye text-blue-400' :
+                             t.type === 'referral' ? 'fa-users text-green-400' :
+                             t.type === 'wd' ? 'fa-money-bill-wave text-red-400' : 'fa-wallet text-purple-400';
+                const statusColor = t.status === 'pending' ? 'text-yellow-400' :
+                                    t.status === 'berhasil' || t.status === 'sukses' ? 'text-green-400' : 'text-red-400';
+                return `
+                    <div class="bg-card p-3 rounded-xl border border-slate-700 flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center"><i class="fa-solid ${icon} text-sm"></i></div>
+                            <div>
+                                <p class="text-xs font-semibold">${t.title}</p>
+                                <p class="text-[9px] text-gray-500">${t.date}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-bold ${isPos ? 'text-green-400' : 'text-red-400'}">${isPos ? '+' : ''}Rp ${Math.abs(t.amount).toLocaleString('id-ID')}</p>
+                            <p class="text-[9px] ${statusColor} capitalize">${t.status}</p>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function filterHistory(filter, btn) {
+            document.querySelectorAll('#view-history button').forEach(b => {
+                b.classList.remove('bg-yellow-500', 'text-black');
+                b.classList.add('bg-slate-700', 'text-gray-300');
+            });
+            btn.classList.remove('bg-slate-700', 'text-gray-300');
+            btn.classList.add('bg-yellow-500', 'text-black');
+            renderHistory(filter);
+        }
+
+        // ========== REFERRAL ==========
+        function updateReferralUI() {
+            const user = getCurrentUser();
+            document.getElementById('ref-bonus-display').innerText = `Rp ${state.settings.bonusReferral.toLocaleString('id-ID')}`;
+            document.getElementById('ref-team-display').innerText = `${state.settings.bonusTeam}%`;
+            document.getElementById('ref-link').value = `https://adstar.com/ref/${user.id}`;
+        }
+
+        // ========== RANK ==========
+        function renderRankList() {
+            const ranks = [
+                { n: 1, bonus: 1000, desc: '1 klik / hari', require: null },
+                { n: 2, bonus: 2000, desc: '1 klik / hari', require: null },
+                { n: 3, bonus: 3000, desc: '1 klik / hari', require: null },
+                { n: 4, bonus: 10000, desc: '1 klik / hari', require: 'Update member Rp 500.000' },
+                { n: 5, bonus: 50000, desc: '1 klik / hari', require: 'Update member Rp 1.500.000' }
+            ];
+            const user = getCurrentUser();
+            document.getElementById('rank-list').innerHTML = ranks.map(r => {
+                const isCurrent = user.rank === r.n;
+                const bg = isCurrent ? 'bg-gradient-to-r from-blue-900 to-slate-800 border-blue-500' : 'bg-card border-slate-700';
+                const badge = isCurrent ? '<div class="absolute -top-2 -right-2 bg-green-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full">Peringkat Anda</div>' : '';
+                return `<div class="${bg} p-3 rounded-xl border flex justify-between items-center relative">
+                    ${badge}
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full ${isCurrent ? 'bg-yellow-500 text-black' : 'bg-slate-700 text-yellow-400'} flex items-center justify-center font-bold">${r.n}</div>
+                        <div>
+                            <p class="text-sm font-semibold ${isCurrent ? 'text-gold' : ''}">Bintang ${r.n}</p>
+                            <p class="text-[10px] text-gray-400">${r.desc} = Rp ${r.bonus.toLocaleString('id-ID')}</p>
+                            ${r.require ? `<p class="text-[9px] text-red-400">Syarat: ${r.require}</p>` : ''}
+                        </div>
+                    </div>
+                    <div class="flex gap-0.5">${Array(r.n).fill('<i class="fa-solid fa-star text-yellow-400 text-xs"></i>').join('')}</div>
+                </div>`;
+            }).join('');
+        }
+
+        // ========== ADMIN DASHBOARD ==========
+        function renderAdminDashboard() {
+            const totalBalance = state.users.reduce((a, u) => a + u.balance, 0);
+            const pendingWD = state.transactions.filter(t => t.type === 'wd' && t.status === 'pending').length;
+            document.getElementById('admin-total-users').innerText = state.users.length;
+            document.getElementById('admin-total-balance').innerText = `Rp ${totalBalance.toLocaleString('id-ID')}`;
+            document.getElementById('admin-pending-wd').innerText = pendingWD;
+            document.getElementById('admin-total-trx').innerText = state.transactions.length;
+            const recent = state.transactions.slice(0, 5);
+            document.getElementById('admin-recent-activity').innerHTML = recent.length === 0 
+                ? '<p class="text-center py-4">Belum ada aktivitas.</p>'
+                : recent.map(t => {
+                    const user = state.users.find(u => u.id === t.userId);
+                    return `<div class="flex justify-between items-center border-b border-slate-700 pb-2 last:border-0">
+                        <div><p class="text-xs text-white font-medium">${t.title}</p>
+                        <p class="text-[9px] text-gray-500">${user ? user.name : 'Unknown'} • ${t.date}</p></div>
+                        <span class="text-xs font-bold ${t.amount > 0 ? 'text-green-400' : 'text-red-400'}">${t.amount > 0 ? '+' : ''}Rp ${Math.abs(t.amount).toLocaleString('id-ID')}</span>
+                    </div>`;
+                }).join('');
+        }
+
+        // ========== ADMIN: USERS ==========
+        function renderAdminUsers() {
+            const query = (document.getElementById('admin-search-user')?.value || '').toLowerCase();
+            const list = document.getElementById('admin-users-list');
+            const filtered = state.users.filter(u => u.name.toLowerCase().includes(query) || u.username.toLowerCase().includes(query));
+            if (filtered.length === 0) { list.innerHTML = '<p class="text-center text-xs text-gray-500 py-10">Tidak ada user.</p>'; return; }
+            list.innerHTML = filtered.map(u => `
+                <div class="bg-card p-4 rounded-xl border border-slate-700">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center border-2 border-purple-500"><i class="fa-solid fa-user text-gray-400"></i></div>
+                            <div><p class="text-sm font-semibold">${u.name}</p><p class="text-[10px] text-gray-400">@${u.username} • ${u.id}</p></div>
+                        </div>
+                        <span class="bg-yellow-500 text-black text-[9px] font-bold px-2 py-0.5 rounded">Bintang ${u.rank}</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mb-3 text-xs">
+                        <div class="bg-slate-800 p-2 rounded"><p class="text-[9px] text-gray-500">Saldo</p><p class="font-bold text-gold">Rp ${u.balance.toLocaleString('id-ID')}</p></div>
+                        <div class="bg-slate-800 p-2 rounded"><p class="text-[9px] text-gray-500">WhatsApp</p><p class="font-bold">${u.wa || '-'}</p></div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="openEditUserModal('${u.id}')" class="flex-1 bg-blue-500/20 text-blue-400 border border-blue-500/50 py-2 rounded-lg text-xs font-semibold"><i class="fa-solid fa-pen mr-1"></i>Edit</button>
+                        <button onclick="adminAddBalance('${u.id}')" class="flex-1 bg-green-500/20 text-green-400 border border-green-500/50 py-2 rounded-lg text-xs font-semibold"><i class="fa-solid fa-plus mr-1"></i>Saldo</button>
+                    </div>
+                </div>`).join('');
+        }
+
+        function openAddUserModal() { document.getElementById('modal-add-user').classList.remove('hidden'); }
+        function closeAddUserModal() { document.getElementById('modal-add-user').classList.add('hidden'); }
+
+        function handleAdminAddUser(event) {
+            event.preventDefault();
+            const name = document.getElementById('add-user-name').value;
+            const username = document.getElementById('add-user-username').value;
+            const password = document.getElementById('add-user-password').value;
+            const balance = parseInt(document.getElementById('add-user-balance').value) || 0;
+            if (state.users.find(u => u.username === username)) { alert('Username sudah digunakan!'); return; }
+            state.users.push({ id: 'ADS' + Math.floor(100000 + Math.random() * 900000), name, username, password, wa: '', email: '', balance, rank: 1 });
+            saveState(); closeAddUserModal(); renderAdminUsers();
+            showToast('User berhasil ditambahkan! ✅', '#10B981');
+            event.target.reset();
+        }
+
+        function openEditUserModal(id) {
+            const user = state.users.find(u => u.id === id); if (!user) return;
+            document.getElementById('edit-user-id').value = user.id;
+            document.getElementById('edit-user-name').value = user.name;
+            document.getElementById('edit-user-username').value = user.username;
+            document.getElementById('edit-user-balance').value = user.balance;
+            document.getElementById('edit-user-password').value = '';
+            document.getElementById('modal-edit-user').classList.remove('hidden');
+        }
+
+        function closeEditUserModal() { document.getElementById('modal-edit-user').classList.add('hidden'); }
+
+        function handleAdminEditUser(event) {
+            event.preventDefault();
+            const id = document.getElementById('edit-user-id').value;
+            const user = state.users.find(u => u.id === id); if (!user) return;
+            user.name = document.getElementById('edit-user-name').value;
+            user.username = document.getElementById('edit-user-username').value;
+            user.balance = parseInt(document.getElementById('edit-user-balance').value) || 0;
+            const newPass = document.getElementById('edit-user-password').value;
+            if (newPass) user.password = newPass;
+            saveState(); closeEditUserModal(); renderAdminUsers();
+            showToast('User berhasil diperbarui! ✅', '#10B981');
+        }
+
+        function handleAdminDeleteUser() {
+            const id = document.getElementById('edit-user-id').value;
+            if (!confirm('Yakin ingin menghapus user ini?')) return;
+            state.users = state.users.filter(u => u.id !== id);
+            state.transactions = state.transactions.filter(t => t.userId !== id);
+            saveState(); closeEditUserModal(); renderAdminUsers();
+            showToast('User dihapus! 🗑️', '#EF4444');
+        }
+
+        function adminAddBalance(id) {
+            const amount = prompt('Masukkan jumlah saldo yang ingin ditambahkan (Rp):');
+            if (!amount || isNaN(amount)) return;
+            const user = state.users.find(u => u.id === id);
+            user.balance += parseInt(amount);
+            state.transactions.unshift({
+                id: Date.now(), userId: id, type: 'topup', title: 'Top Up Saldo (Admin)',
+                date: new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                amount: parseInt(amount), status: 'sukses'
+            });
+            saveState(); renderAdminUsers();
+            showToast(`+Rp ${parseInt(amount).toLocaleString('id-ID')} untuk ${user.name}`, '#10B981');
+        }
+
+        // ========== ADMIN: WITHDRAWALS ==========
+        function renderAdminWD() {
+            const list = document.getElementById('admin-wd-list');
+            const wds = state.transactions.filter(t => t.type === 'wd');
+            if (wds.length === 0) { list.innerHTML = '<p class="text-center text-xs text-gray-500 py-10">Tidak ada permintaan withdraw.</p>'; return; }
+            list.innerHTML = wds.map(t => {
+                const user = state.users.find(u => u.id === t.userId);
+                const statusColor = t.status === 'pending' ? 'text-yellow-400 border-yellow-500/50 bg-yellow-500/10' :
+                                    t.status === 'berhasil' ? 'text-green-400 border-green-500/50 bg-green-500/10' : 'text-red-400 border-red-500/50 bg-red-500/10';
+                const actions = t.status === 'pending' ? `
+                    <div class="flex gap-2 mt-3">
+                        <button onclick="approveWD(${t.id})" class="flex-1 btn-success py-2 rounded-lg text-xs"><i class="fa-solid fa-check mr-1"></i>Setujui</button>
+                        <button onclick="rejectWD(${t.id})" class="flex-1 btn-danger py-2 rounded-lg text-xs"><i class="fa-solid fa-times mr-1"></i>Tolak</button>
+                    </div>` : '';
+                return `<div class="bg-card p-4 rounded-xl border border-slate-700">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <p class="text-sm font-semibold">${user ? user.name : 'Unknown'}</p>
+                            <p class="text-[10px] text-gray-400">${t.method || '-'} • ${t.account || '-'}</p>
+                            <p class="text-[9px] text-gray-500 mt-1">${t.date}</p>
+                        </div>
+                        <span class="text-xs font-bold px-2 py-1 rounded border ${statusColor} capitalize">${t.status}</span>
+                    </div>
+                    <p class="text-lg font-bold text-gold">Rp ${Math.abs(t.amount).toLocaleString('id-ID')}</p>
+                    ${actions}
+                </div>`;
+            }).join('');
+        }
+
+        function approveWD(id) {
+            const trx = state.transactions.find(t => t.id === id); if (!trx) return;
+            trx.status = 'berhasil'; saveState(); renderAdminWD(); renderAdminDashboard();
+            showToast('Withdraw disetujui! ✅', '#10B981');
+        }
+
+        function rejectWD(id) {
+            if (!confirm('Tolak permintaan ini? Saldo akan dikembalikan ke user.')) return;
+            const trx = state.transactions.find(t => t.id === id); if (!trx) return;
+            const user = state.users.find(u => u.id === trx.userId);
+            if (user) user.balance += Math.abs(trx.amount);
+            trx.status = 'ditolak'; saveState(); renderAdminWD(); renderAdminDashboard();
+            showToast('Withdraw ditolak, saldo dikembalikan.', '#EF4444');
+        }
+
+        // ========== ADMIN: SETTINGS ==========
+        function loadAdminSettings() {
+            const s = state.settings;
+            document.getElementById('set-bonus-register').value = s.bonusRegister;
+            document.getElementById('set-bonus-ads').value = s.bonusAds;
+            document.getElementById('set-bonus-ref').value = s.bonusReferral;
+            document.getElementById('set-bonus-team').value = s.bonusTeam;
+            document.getElementById('set-min-wd').value = s.minWithdraw;
+            document.getElementById('set-max-wd').value = s.maxWithdraw;
+            document.getElementById('set-maintenance').checked = s.maintenance;
+            document.getElementById('set-registration').checked = s.registration;
+            document.getElementById('set-auto-wd').checked = s.autoWD;
+        }
+
+        function handleSaveSettings(event) {
+            event.preventDefault();
+            state.settings = {
+                bonusRegister: parseInt(document.getElementById('set-bonus-register').value),
+                bonusAds: parseInt(document.getElementById('set-bonus-ads').value),
+                bonusReferral: parseInt(document.getElementById('set-bonus-ref').value),
+                bonusTeam: parseInt(document.getElementById('set-bonus-team').value),
+                minWithdraw: parseInt(document.getElementById('set-min-wd').value),
+                maxWithdraw: parseInt(document.getElementById('set-max-wd').value),
+                maintenance: document.getElementById('set-maintenance').checked,
+                registration: document.getElementById('set-registration').checked,
+                autoWD: document.getElementById('set-auto-wd').checked
+            };
+            saveState();
+            showToast('Pengaturan disimpan! ✅', '#10B981');
+        }
+
+        // ========== UTILITY ==========
+        function copyRefLink() {
+            const input = document.getElementById('ref-link');
+            input.select(); document.execCommand('copy');
+            showToast('Link referral disalin! 📋');
+        }
+
+        function startGlobalTimer() {
+            let time = 15 * 60 * 60 + 23 * 60 + 40;
+            setInterval(() => {
+                const h = Math.floor(time / 3600);
+                const m = Math.floor((time % 3600) / 60);
+                const s = time % 60;
+                const el = document.getElementById('ad-timer');
+                if (el) el.innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                if (time > 0) time--;
+            }, 1000);
+        }
+
+        // ========== INIT ==========
+        window.onload = () => {
+            loadState();
+            startGlobalTimer();
+            updateSplashUI();
+            updateContainerPadding();
+
+            if (state.isAdmin) {
+                showView('view-admin-dashboard');
+            } else if (state.currentUser) {
+                document.getElementById('bottom-nav').classList.remove('hidden');
+                updateContainerPadding();
+                showView('view-dashboard');
+            } else {
+                showView('view-splash');
+            }
+        };
+    </script>
+</body>
+</html>
